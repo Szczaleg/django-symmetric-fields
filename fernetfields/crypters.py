@@ -1,9 +1,8 @@
 import binascii
-from contextlib import suppress
 
 from . import exceptions
 from django.conf import settings
-from cryptography.fernet import Fernet, MultiFernet, InvalidToken
+from cryptography.fernet import Fernet, MultiFernet
 
 
 class FernetCrypter:
