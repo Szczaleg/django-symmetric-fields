@@ -39,7 +39,6 @@ class FernetCrypter:
 
     def decrypt_string(self, _object: str) -> str:
         data = _object.encode(self.string_encoding)
-        # with suppress(InvalidToken):
         return self.fernet.decrypt(data).decode(self.string_encoding)
 
     def decrypt_bytes(self, _object: bytes) -> bytes:

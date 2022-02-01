@@ -1,4 +1,8 @@
+import datetime
 from contextlib import suppress
+from uuid import UUID
+
+from django.utils.functional import cached_property
 
 from .crypters import FernetCrypter
 from django.conf import settings
@@ -7,20 +11,17 @@ from cryptography.fernet import InvalidToken
 
 
 class FernetEncyptedMixin:
-    # STRING_ENCODING = getattr(settings, 'STRING ENCODING', 'utf-8')
-    STRING_ENCODING = 'utf-8'
 
     def __init__(self, show_values=False, *args, **kwargs):
         self.show_values = show_values
         super().__init__(*args, **kwargs)
 
     def to_python(self, value):
-        if not value:
+        if not value or not self.show_values:
             return value
-        if self.show_values:
-            fernet_crypter = FernetCrypter()
-            with suppress(InvalidToken):
-                value = fernet_crypter.decrypt(value)
+        fernet_crypter = FernetCrypter()
+        with suppress(InvalidToken):
+            value = fernet_crypter.decrypt(value)
         return super(FernetEncyptedMixin, self).to_python(value)
 
     def get_db_prep_save(self, value, connection):
@@ -37,21 +38,59 @@ class FernetEncyptedMixin:
     def from_db_value(self, value, *args, **kwargs):
         return self.to_python(value)
 
-    # def formfield(self, **kwargs):
-    #     kwargs['widget'] = ReadOnlyPasswordHashWidget
-    #     print(kwargs)
-    #     return super(FernetEncyptedMixin, self).formfield(**kwargs)
+    def get_internal_type(self):
+        return "TextField"
+
+
+class FernetEncryptedBoolMixin(FernetEncyptedMixin):
+
+    def get_db_prep_save(self, value, connection):
+        fernet_crypter = FernetCrypter()
+        try:
+            fernet_crypter.decrypt(value)
+        except InvalidToken:
+            if value is True:
+                value = '1'
+            elif value is False:
+                value = '0'
+            return fernet_crypter.encrypt(value)
+        return value
+
+    def to_python(self, value):
+        if not value or not self.show_values:
+            return value
+        fernet_crypter = FernetCrypter()
+        with suppress(InvalidToken):
+            value = fernet_crypter.decrypt(value)
+            if value == 'None':
+                return
+            return value == '1'
+
+
+class FernetIntegerMixin(FernetEncyptedMixin):
+
+    def to_python(self, value):
+        if not value or not self.show_values:
+            return value
+        fernet_crypter = FernetCrypter()
+        with suppress(InvalidToken):
+            value = fernet_crypter.decrypt(value)
+            return int(value)
 
 
 class FernetEncryptedTextField(FernetEncyptedMixin, models.TextField):
     pass
 
 
-class FernetEncryptedBigIntegerField(FernetEncyptedMixin, models.BigIntegerField):
+class FernetEncryptedBigIntegerField(FernetIntegerMixin, models.BigIntegerField):
     pass
 
 
-class FernetEncryptedSmallIntegerField(FernetEncyptedMixin, models.SmallIntegerField):
+class FernetEncryptedIntegerField(FernetIntegerMixin, models.IntegerField):
+    pass
+
+
+class FernetEncryptedSmallIntegerField(FernetIntegerMixin, models.SmallIntegerField):
     pass
 
 
@@ -59,12 +98,21 @@ class FernetEncryptedIPAddressField(FernetEncyptedMixin, models.IPAddressField):
     pass
 
 
-class FernetEncryptedNullBooleanField(FernetEncyptedMixin, models.NullBooleanField):
+class FernetEncryptedNullBooleanField(FernetEncryptedBoolMixin, models.NullBooleanField):
     pass
 
 
 class FernetEncryptedTimeField(FernetEncyptedMixin, models.TimeField):
-    pass
+
+    def get_db_prep_save(self, value, connection):
+        if not value:
+            return value
+        fernet_crypter = FernetCrypter()
+        try:
+            fernet_crypter.decrypt(value)
+        except InvalidToken:
+            return fernet_crypter.encrypt(value)
+        return value
 
 
 class FernetEncryptedBinaryField(FernetEncyptedMixin, models.BinaryField):
@@ -72,7 +120,14 @@ class FernetEncryptedBinaryField(FernetEncyptedMixin, models.BinaryField):
 
 
 class FernetEncryptedUUIDField(FernetEncyptedMixin, models.UUIDField):
-    pass
+
+    def to_python(self, value):
+        if not value or not self.show_values:
+            return value
+        fernet_crypter = FernetCrypter()
+        with suppress(InvalidToken):
+            value = fernet_crypter.decrypt(value)
+            return UUID(value)
 
 
 class FernetEncryptedCharField(FernetEncyptedMixin, models.CharField):
@@ -91,5 +146,5 @@ class FernetEncryptedEmailField(FernetEncyptedMixin, models.EmailField):
     pass
 
 
-class FernetEncryptedBooleanField(FernetEncyptedMixin, models.BooleanField):
+class FernetEncryptedBooleanField(FernetEncryptedBoolMixin, models.BooleanField):
     pass

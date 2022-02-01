@@ -4,7 +4,7 @@ from django.db.models import Model
 
 class TestTextFieldModel(Model):
     test_field = fields.FernetEncryptedTextField(show_values=True)
-    hidden_test_field = fields.FernetEncryptedTextField(show_values=False)
+    hidden_test_field = fields.FernetEncryptedTextField()
 
 
 class TestBigIntegerFieldModel(Model):
@@ -15,6 +15,11 @@ class TestBigIntegerFieldModel(Model):
 class TestSmallIntegerFieldModel(Model):
     test_field = fields.FernetEncryptedSmallIntegerField(show_values=True)
     hidden_test_field = fields.FernetEncryptedSmallIntegerField()
+
+
+class TestIntegerFieldModel(Model):
+    test_field = fields.FernetEncryptedIntegerField(show_values=True)
+    hidden_test_field = fields.FernetEncryptedIntegerField()
 
 
 class TestIPAddressFieldModel(Model):
@@ -32,7 +37,7 @@ class TestTimeFieldModel(Model):
     hidden_test_field = fields.FernetEncryptedTimeField()
 
 
-class TestBinaryFieldModel(Model):
+class TestBinaryFieldModel(Model):  #untested
     test_field = fields.FernetEncryptedBinaryField(show_values=True)
     hidden_test_field = fields.FernetEncryptedBinaryField()
 
