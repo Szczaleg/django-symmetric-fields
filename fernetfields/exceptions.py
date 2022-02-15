@@ -1,5 +1,3 @@
-
-
 class NoKeysDefinedException(Exception):
     pass
 

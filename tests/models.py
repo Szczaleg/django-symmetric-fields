@@ -37,7 +37,7 @@ class TestTimeFieldModel(Model):
     hidden_test_field = fields.FernetEncryptedTimeField()
 
 
-class TestBinaryFieldModel(Model):  #untested
+class TestBinaryFieldModel(Model):  # untested
     test_field = fields.FernetEncryptedBinaryField(show_values=True)
     hidden_test_field = fields.FernetEncryptedBinaryField()
 
