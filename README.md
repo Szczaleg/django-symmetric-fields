@@ -46,5 +46,6 @@ Fields created this way are encrypted only in the database, if you try read the 
 
 
 ### Supports
-python >= 3.7,
+python >= 3.7, django>=2.0
+
 requires cryptography >= 0.9

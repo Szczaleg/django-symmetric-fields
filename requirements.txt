@@ -1,4 +1,4 @@
-Django>=1.10
+Django>=2.0
 cryptography>=0.9
 
 pytest>=2.7.3
