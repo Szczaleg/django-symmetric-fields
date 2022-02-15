@@ -46,5 +46,5 @@ Fields created this way are encrypted only in the database, if you try read the 
 
 
 ### Supports
-python >= 3.6,
+python >= 3.7,
 requires cryptography >= 0.9
