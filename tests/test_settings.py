@@ -1,3 +1,5 @@
+SECRET_KEY = 'secret_key'
+
 INSTALLED_APPS = ("tests",)
 
 ENCRYPTION_KEYS = [
