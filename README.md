@@ -26,7 +26,7 @@ Package supports key rotation. A newest key in the front of the list is used to 
 After you've completed the initial installation and provided keys in ```settings.py``` you can import your new fernet fields like any other:
 
 ```python
-from fernetfields.fields import FernetEncryptedTextField
+from symmetricfields.fields import FernetEncryptedTextField
 
 class ModelWithEncryptedField(models.Model):
     encrypted_field = FernetEncryptedTextField()
@@ -36,7 +36,7 @@ class ModelWithEncryptedField(models.Model):
 By default your data is encrypted and isn't decrypted while accesing it. This can be changed by a passing ```show_values=True``` arguement into the field:
 
 ```python
-from fernetfields.fields import FernetEncryptedTextField
+from symmetricfields.fields import FernetEncryptedTextField
 
 class ModelWithEncryptedField(models.Model):
     encrypted_field = FernetEncryptedTextField(show_values=True)
