@@ -1,4 +1,4 @@
-from fernetfields import fields
+from symmetricfields import fields
 from django.db.models import Model
 
 

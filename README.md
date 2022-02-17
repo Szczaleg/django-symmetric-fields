@@ -10,10 +10,10 @@ This package provides encrypted model fields in Django using symmetric fernet en
 $ pip install django-symmetric-fields
 ```
 ### Keys
-```django-symmetric-fields``` uses fernet keys from ```settings.py``` for encryption. Provide a list of keys in the ```ENCRYPTION_KEYS``` setting. E.g:
+```django-symmetric-fields``` uses fernet keys from ```settings.py``` for encryption. Provide a list of keys in the ```DSF_ENCRYPTION_KEYS``` setting. E.g:
 
 ```python
-ENCRYPTION_KEYS = [
+DSF_ENCRYPTION_KEYS = [
     b"key1",
     b"key2",
 ]

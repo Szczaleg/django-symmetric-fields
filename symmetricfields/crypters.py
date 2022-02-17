@@ -8,7 +8,7 @@ from cryptography.fernet import Fernet, MultiFernet
 class FernetCrypter:
     def __init__(self):
         self.string_encoding = getattr(settings, "STRING ENCODING", "utf-8")
-        self.keys = getattr(settings, "ENCRYPTION_KEYS", None)
+        self.keys = getattr(settings, "DSF_ENCRYPTION_KEYS", None)
         if not self.keys:
             raise exceptions.NoKeysDefinedException()
         if type(self.keys) == list:
