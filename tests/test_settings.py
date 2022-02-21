@@ -1,4 +1,4 @@
-SECRET_KEY = 'secret_key'
+SECRET_KEY = "secret_key"
 
 INSTALLED_APPS = ("tests",)
 
