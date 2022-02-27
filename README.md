@@ -32,17 +32,17 @@ class ModelWithEncryptedField(models.Model):
     encrypted_field = FernetEncryptedTextField()
 ```
 
-### Showing values
-By default your data is encrypted and isn't decrypted while accesing it. This can be changed by a passing ```show_values=True``` arguement into the field:
+### Retrieving values
+Each field is provided with two properties used to retrieve the values of the fields ```value``` and ```decrypt```. The values are not decrypted until explicitly requested.
 
 ```python
-from symmetricfields.fields import FernetEncryptedTextField
+ModelWithEncryptedField.objects.create(encrypted_field='test')
 
-class ModelWithEncryptedField(models.Model):
-    encrypted_field = FernetEncryptedTextField(show_values=True)
+my_new_encrypted_object = ModuleWithEncryptedField.objects.first()
+my_new_encrypted_object.encrypted_field.value  # returns encrypted value of the field
+my_new_encrypted_object.encrypted_field.decrypt  # returns 'test'
 ```
 
-Fields created this way are encrypted only in the database, if you try read the data in anyway (let it be viewing the model in the django admin or accessing the field value) the value will be decrypted.
 
 
 ### Supports
