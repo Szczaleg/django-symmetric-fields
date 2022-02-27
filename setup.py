@@ -4,8 +4,8 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setup(
-    name="django-symmetric-fields-Szczaleg",
-    version="0.0.2",
+    name="django-symmetric-fields",
+    version="0.0.3",
     author="Szczaleg",
     description="Symmetric encryption for model fields in Django",
     long_description=long_description,
