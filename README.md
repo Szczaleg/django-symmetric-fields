@@ -33,14 +33,14 @@ class ModelWithEncryptedField(models.Model):
 ```
 
 ### Retrieving values
-Each field is provided with two properties used to retrieve the values of the fields ```value``` and ```decrypt```. The values are not decrypted until explicitly requested.
+Each field is provided with two properties used to retrieve the values of the fields ```value``` and ```decrypted```. The values are not decrypted until explicitly requested.
 
 ```python
 ModelWithEncryptedField.objects.create(encrypted_field='test')
 
 my_new_encrypted_object = ModuleWithEncryptedField.objects.first()
 my_new_encrypted_object.encrypted_field.value  # returns encrypted value of the field
-my_new_encrypted_object.encrypted_field.decrypt  # returns 'test'
+my_new_encrypted_object.encrypted_field.decrypted  # returns 'test'
 ```
 
 
