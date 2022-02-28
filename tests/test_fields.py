@@ -16,6 +16,13 @@ def test_text_field():
     assert test_object.test_field.value != test_value
     assert test_object.test_field.decrypted == test_value
 
+    test_object.test_field = None
+    test_object.save()
+    test_object = models.TestTextFieldModel.objects.first()
+
+    assert test_object.test_field.value is None
+    assert test_object.test_field.decrypted is None
+
 
 @pytest.mark.django_db
 def test_email_field():
@@ -28,6 +35,13 @@ def test_email_field():
     assert test_object.test_field.value != test_value
     assert test_object.test_field.decrypted == test_value
 
+    test_object.test_field = None
+    test_object.save()
+    test_object = models.TestEmailFieldModel.objects.first()
+
+    assert test_object.test_field.value is None
+    assert test_object.test_field.decrypted is None
+
 
 @pytest.mark.django_db
 def test_ipadress_field():
@@ -39,6 +53,13 @@ def test_ipadress_field():
 
     assert test_object.test_field.value != test_value
     assert test_object.test_field.decrypted == test_value
+
+    test_object.test_field = None
+    test_object.save()
+    test_object = models.TestIPAddressFieldModel.objects.first()
+
+    assert test_object.test_field.value is None
+    assert test_object.test_field.decrypted is None
 
 
 @pytest.mark.django_db
@@ -60,7 +81,6 @@ def test_boolean_field():
     models.TestBooleanFieldModel.objects.create(test_field=test_value)
 
     test_object = models.TestBooleanFieldModel.objects.first()
-
     assert test_object.test_field.value != test_value
     assert test_object.test_field.decrypted == test_value
 
@@ -73,8 +93,8 @@ def test_nullboolean_field_null_value():
 
     test_object = models.TestNullBooleanFieldModel.objects.first()
 
-    assert test_object.test_field.value != test_value
-    assert test_object.test_field.decrypted == test_value
+    assert test_object.test_field.value is None
+    assert test_object.test_field.decrypted is None
 
 
 @pytest.mark.django_db
@@ -88,6 +108,13 @@ def test_time_field():
     assert test_object.test_field.value != test_value
     assert test_object.test_field.decrypted == test_value
 
+    test_object.test_field = None
+    test_object.save()
+    test_object = models.TestTimeFieldModel.objects.first()
+
+    assert test_object.test_field.value is None
+    assert test_object.test_field.decrypted is None
+
 
 @pytest.mark.django_db
 def test_date_field():
@@ -99,6 +126,13 @@ def test_date_field():
 
     assert test_object.test_field.value != test_value
     assert test_object.test_field.decrypted == test_value
+
+    test_object.test_field = None
+    test_object.save()
+    test_object = models.TestDateFieldModel.objects.first()
+
+    assert test_object.test_field.value is None
+    assert test_object.test_field.decrypted is None
 
 
 @pytest.mark.django_db
@@ -112,6 +146,13 @@ def test_datetime_field():
     assert test_object.test_field.value != test_value
     assert test_object.test_field.decrypted == test_value
 
+    test_object.test_field = None
+    test_object.save()
+    test_object = models.TestDateTimeFieldModel.objects.first()
+
+    assert test_object.test_field.value is None
+    assert test_object.test_field.decrypted is None
+
 
 @pytest.mark.django_db
 def test_bigint_field():
@@ -123,6 +164,13 @@ def test_bigint_field():
 
     assert test_object.test_field.value != test_value
     assert test_object.test_field.decrypted == test_value
+
+    test_object.test_field = None
+    test_object.save()
+    test_object = models.TestBigIntegerFieldModel.objects.first()
+
+    assert test_object.test_field.value is None
+    assert test_object.test_field.decrypted is None
 
 
 @pytest.mark.django_db
@@ -136,6 +184,13 @@ def test_smallint_field():
     assert test_object.test_field.value != test_value
     assert test_object.test_field.decrypted == test_value
 
+    test_object.test_field = None
+    test_object.save()
+    test_object = models.TestSmallIntegerFieldModel.objects.first()
+
+    assert test_object.test_field.value is None
+    assert test_object.test_field.decrypted is None
+
 
 @pytest.mark.django_db
 def test_int_field():
@@ -148,6 +203,13 @@ def test_int_field():
     assert test_object.test_field.value != test_value
     assert test_object.test_field.decrypted == test_value
 
+    test_object.test_field = None
+    test_object.save()
+    test_object = models.TestIntegerFieldModel.objects.first()
+
+    assert test_object.test_field.value is None
+    assert test_object.test_field.decrypted is None
+
 
 @pytest.mark.django_db
 def test_uuid_field():
@@ -159,3 +221,10 @@ def test_uuid_field():
 
     assert test_object.test_field.value != test_value
     assert test_object.test_field.decrypted == test_value
+
+    test_object.test_field = None
+    test_object.save()
+    test_object = models.TestUUIDFieldModel.objects.first()
+
+    assert test_object.test_field.value is None
+    assert test_object.test_field.decrypted is None

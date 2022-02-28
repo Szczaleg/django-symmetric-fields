@@ -4,16 +4,17 @@ from cryptography.fernet import InvalidToken
 
 
 class FernetEncryptedMixin:
+
     def to_python(self, value):
         if not value:
-            return value
+            return values.FieldValue(value)
         super_value = super(FernetEncryptedMixin, self).to_python(value)
         return values.FieldValue(super_value)
 
     def get_db_prep_save(self, value, connection):
-        value = super(FernetEncryptedMixin, self).get_db_prep_save(value, connection)
-        if not value:
-            return value
+        prep_value = super(FernetEncryptedMixin, self).get_db_prep_save(value, connection)
+        if isinstance(value, values.FieldValue):
+            value = prep_value.value
         fernet_crypter = FernetCrypter()
         try:
             fernet_crypter.decrypt(value)
@@ -30,6 +31,8 @@ class FernetEncryptedMixin:
 
 class FernetEncryptedBoolMixin(FernetEncryptedMixin):
     def get_db_prep_save(self, value, connection):
+        if not value:
+            return value
         fernet_crypter = FernetCrypter()
         try:
             fernet_crypter.decrypt(value)
@@ -42,15 +45,11 @@ class FernetEncryptedBoolMixin(FernetEncryptedMixin):
         return value
 
     def to_python(self, value):
-        if not value:
-            return value
         return values.BooleanFieldValue(value)
 
 
 class FernetEncryptedIntegerMixin(FernetEncryptedMixin):
     def to_python(self, value):
-        if not value:
-            return value
         return values.IntegerFieldValue(value)
 
 

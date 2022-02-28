@@ -5,12 +5,15 @@ from .crypters import FernetCrypter
 from cryptography.fernet import InvalidToken
 
 
-class FieldValue:
+class FieldValue(object):
     def __init__(self, value):
         self.value = value
 
-    def __repr__(self):
+    def __str__(self):
         return str(self.value)
+
+    def __repr__(self):
+        return str(self)
 
     def _decrypt_value(self):
         if not self.value:
@@ -29,7 +32,7 @@ class BooleanFieldValue(FieldValue):
     @property
     def decrypted(self):
         value = self._decrypt_value()
-        if value == "None":
+        if not value:
             return None
         return value == "1"
 
@@ -37,28 +40,38 @@ class BooleanFieldValue(FieldValue):
 class IntegerFieldValue(FieldValue):
     @property
     def decrypted(self):
+        if not self.value:
+            return self.value
         return int(self._decrypt_value())
 
 
 class UUIDFieldValue(FieldValue):
     @property
     def decrypted(self):
+        if not self.value:
+            return self.value
         return UUID(self._decrypt_value())
 
 
 class TimeFieldValue(FieldValue):
     @property
     def decrypted(self):
+        if not self.value:
+            return self.value
         return time.fromisoformat(self._decrypt_value())
 
 
 class DateFieldValue(FieldValue):
     @property
     def decrypted(self):
+        if not self.value:
+            return self.value
         return date.fromisoformat(self._decrypt_value())
 
 
 class DateTimeFieldValue(FieldValue):
     @property
     def decrypted(self):
+        if not self.value:
+            return self.value
         return datetime.fromisoformat(self._decrypt_value())

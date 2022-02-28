@@ -46,12 +46,16 @@ class FernetCrypter:
         return self.fernet.decrypt(_object)
 
     def encrypt(self, _object):
+        if not _object:
+            return _object
         if isinstance(_object, bytes):
             return self.encrypt(_object)
         else:
             return self.encrypt_string(str(_object))
 
     def decrypt(self, _object):
+        if not _object:
+            return _object
         if isinstance(_object, bytes):
             return self.decrypt(_object)
         else:

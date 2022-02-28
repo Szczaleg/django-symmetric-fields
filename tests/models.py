@@ -7,19 +7,19 @@ class TestTextFieldModel(Model):
 
 
 class TestBigIntegerFieldModel(Model):
-    test_field = fields.FernetEncryptedBigIntegerField()
+    test_field = fields.FernetEncryptedBigIntegerField(null=True)
 
 
 class TestSmallIntegerFieldModel(Model):
-    test_field = fields.FernetEncryptedSmallIntegerField()
+    test_field = fields.FernetEncryptedSmallIntegerField(null=True)
 
 
 class TestIntegerFieldModel(Model):
-    test_field = fields.FernetEncryptedIntegerField()
+    test_field = fields.FernetEncryptedIntegerField(null=True)
 
 
 class TestIPAddressFieldModel(Model):
-    test_field = fields.FernetEncryptedIPAddressField()
+    test_field = fields.FernetEncryptedIPAddressField(null=True)
 
 
 class TestNullBooleanFieldModel(Model):
@@ -27,27 +27,27 @@ class TestNullBooleanFieldModel(Model):
 
 
 class TestTimeFieldModel(Model):
-    test_field = fields.FernetEncryptedTimeField()
+    test_field = fields.FernetEncryptedTimeField(null=True)
 
 
-class TestBinaryFieldModel(Model):  # untested
-    test_field = fields.FernetEncryptedBinaryField()
+class TestBinaryFieldModel(Model):
+    test_field = fields.FernetEncryptedBinaryField(null=True)
 
 
 class TestUUIDFieldModel(Model):
-    test_field = fields.FernetEncryptedUUIDField()
+    test_field = fields.FernetEncryptedUUIDField(null=True)
 
 
 class TestDateFieldModel(Model):
-    test_field = fields.FernetEncryptedDateField()
+    test_field = fields.FernetEncryptedDateField(null=True)
 
 
 class TestDateTimeFieldModel(Model):
-    test_field = fields.FernetEncryptedDateTimeField()
+    test_field = fields.FernetEncryptedDateTimeField(null=True)
 
 
 class TestEmailFieldModel(Model):
-    test_field = fields.FernetEncryptedEmailField()
+    test_field = fields.FernetEncryptedEmailField(null=True)
 
 
 class TestBooleanFieldModel(Model):

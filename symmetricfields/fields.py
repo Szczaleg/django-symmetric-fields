@@ -2,6 +2,10 @@ from django.db import models
 from . import mixins, values
 
 
+class FernetEncryptedCharField(mixins.FernetEncryptedMixin, models.CharField):
+    pass
+
+
 class FernetEncryptedTextField(mixins.FernetEncryptedMixin, models.TextField):
     pass
 
@@ -40,29 +44,16 @@ class FernetEncryptedBinaryField(mixins.FernetEncryptedMixin, models.BinaryField
 
 class FernetEncryptedUUIDField(mixins.FernetEncryptedMixin, models.UUIDField):
     def to_python(self, value):
-        if not value:
-            return value
         return values.UUIDFieldValue(value)
-
-
-class FernetEncryptedCharField(mixins.FernetEncryptedMixin, models.CharField):
-    def to_python(self, value):
-        if not value:
-            return value
-        return values.TimeFieldValue(value)
 
 
 class FernetEncryptedTimeField(mixins.FernetEncryptedTimeMixin, models.TimeField):
     def to_python(self, value):
-        if not value:
-            return value
         return values.TimeFieldValue(value)
 
 
 class FernetEncryptedDateField(mixins.FernetEncryptedMixin, models.DateField):
     def to_python(self, value):
-        if not value:
-            return value
         return values.DateFieldValue(value)
 
 
@@ -70,8 +61,6 @@ class FernetEncryptedDateTimeField(
     mixins.FernetEncryptedTimeMixin, models.DateTimeField
 ):
     def to_python(self, value):
-        if not value:
-            return value
         return values.DateTimeFieldValue(value)
 
 
