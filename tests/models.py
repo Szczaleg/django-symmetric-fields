@@ -2,6 +2,10 @@ from symmetricfields import fields
 from django.db.models import Model
 
 
+class TestCharFieldModel(Model):
+    test_field = fields.FernetEncryptedCharField(null=True)
+
+
 class TestTextFieldModel(Model):
     test_field = fields.FernetEncryptedTextField(null=True)
 
