@@ -27,6 +27,9 @@ class FieldValue(object):
     def decrypted(self):
         return self._decrypt_value()
 
+    def __len__(self):
+        return len(self.value)
+
 
 class BooleanFieldValue(FieldValue):
     @property

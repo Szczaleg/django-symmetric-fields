@@ -31,17 +31,17 @@ class FernetEncryptedMixin:
 
 class FernetEncryptedBoolMixin(FernetEncryptedMixin):
     def get_db_prep_save(self, value, connection):
-        if not value:
-            return value
+        if value is None:
+            return None
         fernet_crypter = FernetCrypter()
         try:
-            fernet_crypter.decrypt(value)
+            fernet_crypter.decrypt_string(str(value))
         except InvalidToken:
             if value is True:
                 value = "1"
             elif value is False:
                 value = "0"
-            return fernet_crypter.encrypt(value)
+            return fernet_crypter.encrypt_string(str(value))
         return value
 
     def to_python(self, value):
