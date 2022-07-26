@@ -21,7 +21,8 @@ import pytest
         (models.TestCharFieldModel, "test"),
         (models.TestNullBooleanFieldModel, True),
         (models.TestNullBooleanFieldModel, False),
-    ]
+        (models.TestJsonFieldModel, {"a": [1, 2, 3], "b": True}),
+    ],
 )
 @pytest.mark.django_db
 def test_nullable_field(test_model, test_value):

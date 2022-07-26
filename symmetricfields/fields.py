@@ -70,3 +70,7 @@ class FernetEncryptedEmailField(mixins.FernetEncryptedMixin, models.EmailField):
 
 class FernetEncryptedBooleanField(mixins.FernetEncryptedBoolMixin, models.BooleanField):
     pass
+
+
+class FernetEncryptedJSONField(mixins.FernetEncryptedJSONMixin, models.JSONField):
+    pass

@@ -1,10 +1,11 @@
+import json
+
 from . import values
 from .crypters import FernetCrypter
 from cryptography.fernet import InvalidToken
 
 
 class FernetEncryptedMixin:
-
     def to_python(self, value):
         if not value:
             return values.FieldValue(value)
@@ -12,7 +13,9 @@ class FernetEncryptedMixin:
         return values.FieldValue(super_value)
 
     def get_db_prep_save(self, value, connection):
-        prep_value = super(FernetEncryptedMixin, self).get_db_prep_save(value, connection)
+        prep_value = super(FernetEncryptedMixin, self).get_db_prep_save(
+            value, connection
+        )
         if isinstance(value, values.FieldValue):
             value = prep_value.value
         fernet_crypter = FernetCrypter()
@@ -63,3 +66,18 @@ class FernetEncryptedTimeMixin(FernetEncryptedMixin):
         except InvalidToken:
             value = fernet_crypter.encrypt(value)
         return value
+
+
+class FernetEncryptedJSONMixin(FernetEncryptedMixin):
+    def get_db_prep_save(self, value, connection):
+        if value is None:
+            return None
+        fernet_crypter = FernetCrypter()
+        try:
+            fernet_crypter.decrypt_string(str(value))
+        except InvalidToken:
+            return fernet_crypter.encrypt_string(json.dumps(value))
+        return value
+
+    def to_python(self, value):
+        return values.JSONFieldValue(value)

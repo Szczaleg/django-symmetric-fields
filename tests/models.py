@@ -56,3 +56,7 @@ class TestEmailFieldModel(Model):
 
 class TestBooleanFieldModel(Model):
     test_field = fields.FernetEncryptedBooleanField()
+
+
+class TestJsonFieldModel(Model):
+    test_field = fields.FernetEncryptedJSONField(null=True)

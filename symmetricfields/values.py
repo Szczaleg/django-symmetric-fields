@@ -1,3 +1,4 @@
+import json
 from contextlib import suppress
 from uuid import UUID
 from datetime import time, date, datetime
@@ -78,3 +79,11 @@ class DateTimeFieldValue(FieldValue):
         if not self.value:
             return self.value
         return datetime.fromisoformat(self._decrypt_value())
+
+
+class JSONFieldValue(FieldValue):
+    @property
+    def decrypted(self):
+        if not self.value:
+            return self.value
+        return json.loads(self._decrypt_value())
