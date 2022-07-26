@@ -46,6 +46,6 @@ my_new_encrypted_object.encrypted_field.decrypted  # returns 'test'
 
 
 ### Supports
-python >= 3.7, django>=2.0
+python >= 3.7, django>=3.1
 
 requires cryptography >= 0.9
