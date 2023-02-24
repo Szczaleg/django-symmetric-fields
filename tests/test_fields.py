@@ -37,6 +37,7 @@ def test_nullable_field(test_model, test_value):
     test_object.test_field = None
     test_object.save()
     test_object.refresh_from_db()
+    test_object.save()  # tests save function on unchanged models
 
     assert test_object.test_field.value is None
     assert test_object.test_field.decrypted is None

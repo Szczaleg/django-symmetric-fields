@@ -13,11 +13,8 @@ class FernetEncryptedMixin:
         return values.FieldValue(super_value)
 
     def get_db_prep_save(self, value, connection):
-        prep_value = super(FernetEncryptedMixin, self).get_db_prep_save(
-            value, connection
-        )
         if isinstance(value, values.FieldValue):
-            value = prep_value.value
+            return value.value
         fernet_crypter = FernetCrypter()
         try:
             fernet_crypter.decrypt(value)
@@ -36,6 +33,8 @@ class FernetEncryptedBoolMixin(FernetEncryptedMixin):
     def get_db_prep_save(self, value, connection):
         if value is None:
             return None
+        if isinstance(value, values.FieldValue):
+            return value.value
         fernet_crypter = FernetCrypter()
         try:
             fernet_crypter.decrypt_string(str(value))
@@ -58,6 +57,8 @@ class FernetEncryptedIntegerMixin(FernetEncryptedMixin):
 
 class FernetEncryptedTimeMixin(FernetEncryptedMixin):
     def get_db_prep_save(self, value, connection):
+        if isinstance(value, values.FieldValue):
+            return value.value
         if not value:
             return value
         fernet_crypter = FernetCrypter()
@@ -72,6 +73,8 @@ class FernetEncryptedJSONMixin(FernetEncryptedMixin):
     def get_db_prep_save(self, value, connection):
         if value is None:
             return None
+        if isinstance(value, values.FieldValue):
+            return value.value
         fernet_crypter = FernetCrypter()
         try:
             fernet_crypter.decrypt_string(str(value))
