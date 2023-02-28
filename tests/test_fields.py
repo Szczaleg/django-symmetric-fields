@@ -1,6 +1,7 @@
 import datetime
 import uuid
 
+from symmetricfields.values import FieldValue
 from tests import models
 import pytest
 
@@ -31,6 +32,7 @@ def test_nullable_field(test_model, test_value):
 
     test_object = test_model.objects.first()
 
+    assert isinstance(test_object.test_field, FieldValue)
     assert test_object.test_field.value != test_value
     assert test_object.test_field.decrypted == test_value
 
@@ -41,3 +43,17 @@ def test_nullable_field(test_model, test_value):
 
     assert test_object.test_field.value is None
     assert test_object.test_field.decrypted is None
+
+    test_object.test_field = test_value
+    test_object.save()
+    test_object.refresh_from_db()
+    test_object.save()
+    assert test_object.test_field.value != test_value
+    assert test_object.test_field.decrypted == test_value
+
+    # weird case of assigning a value to .value property
+    test_object.test_field.value = test_value
+    test_object.save()
+    test_object.refresh_from_db()
+    assert test_object.test_field.value != test_value
+    assert test_object.test_field.decrypted == test_value

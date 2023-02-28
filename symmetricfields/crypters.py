@@ -49,7 +49,7 @@ class FernetCrypter:
         if not _object:
             return _object
         if isinstance(_object, bytes):
-            return self.encrypt(_object)
+            return self.encrypt_bytes(_object)
         else:
             return self.encrypt_string(str(_object))
 
@@ -57,6 +57,6 @@ class FernetCrypter:
         if not _object:
             return _object
         if isinstance(_object, bytes):
-            return self.decrypt(_object)
+            return self.decrypt_bytes(_object)
         else:
             return self.decrypt_string(str(_object))

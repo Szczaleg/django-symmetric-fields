@@ -5,6 +5,15 @@ from .crypters import FernetCrypter
 from cryptography.fernet import InvalidToken
 
 
+def can_be_decrypted(value: str) -> bool:
+    fernet_crypter = FernetCrypter()
+    try:
+        fernet_crypter.decrypt(value)
+    except InvalidToken:
+        return False
+    return True
+
+
 class FernetEncryptedMixin:
     def to_python(self, value):
         if not value:
@@ -14,13 +23,11 @@ class FernetEncryptedMixin:
 
     def get_db_prep_save(self, value, connection):
         if isinstance(value, values.FieldValue):
-            return value.value
+            value = value.value
+        if can_be_decrypted(value):
+            return value
         fernet_crypter = FernetCrypter()
-        try:
-            fernet_crypter.decrypt(value)
-        except InvalidToken:
-            return fernet_crypter.encrypt(value)
-        return value
+        return fernet_crypter.encrypt(value)
 
     def from_db_value(self, value, *args, **kwargs):
         return self.to_python(value)
@@ -34,7 +41,7 @@ class FernetEncryptedBoolMixin(FernetEncryptedMixin):
         if value is None:
             return None
         if isinstance(value, values.FieldValue):
-            return value.value
+            value = value.value
         fernet_crypter = FernetCrypter()
         try:
             fernet_crypter.decrypt_string(str(value))
@@ -57,10 +64,10 @@ class FernetEncryptedIntegerMixin(FernetEncryptedMixin):
 
 class FernetEncryptedTimeMixin(FernetEncryptedMixin):
     def get_db_prep_save(self, value, connection):
-        if isinstance(value, values.FieldValue):
-            return value.value
-        if not value:
+        if value is None:
             return value
+        if isinstance(value, values.FieldValue):
+            value = value.value
         fernet_crypter = FernetCrypter()
         try:
             fernet_crypter.decrypt(value)
@@ -74,7 +81,7 @@ class FernetEncryptedJSONMixin(FernetEncryptedMixin):
         if value is None:
             return None
         if isinstance(value, values.FieldValue):
-            return value.value
+            value = value.value
         fernet_crypter = FernetCrypter()
         try:
             fernet_crypter.decrypt_string(str(value))
